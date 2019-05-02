@@ -16,5 +16,9 @@ class SoftDelete extends Model
 
 class Task extends Model
 {
-    //
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+
+    }
 }
