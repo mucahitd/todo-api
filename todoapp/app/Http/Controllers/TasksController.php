@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect;
-
 
 
 class TasksController extends Controller
@@ -14,20 +14,25 @@ class TasksController extends Controller
      * Show Task Dashboard
      */
 
-    public function show() {
+    public function show()
+    {
 
-        $tasks = Task::orderBy('created_at', 'asc')->get();
+        $tasks = Task::with('user')->orderBy('created_at', 'asc')->get();
 
-        return view('tasks', [
-            'tasks' => $tasks
-        ]);
+        if ($tasks == null) {
+
+            return response()->json($tasks, 204);
+        }
+
+        return response()->json($tasks, 200);
     }
 
     /**
-    * Add Task Dashboard
-    */
+     * Add Task Dashboard
+     */
 
-    public function add(Request $request) {
+    public function add(Request $request)
+    {
         $currentUser = \Auth::user();
 
         $validator = Validator::make($request->all(), [
@@ -41,18 +46,19 @@ class TasksController extends Controller
         }
 
         $task = new Task;
-        $task->name = $request->name;
-        $task->belongsTo($currentUser);
+        $task->name = $request->get('name');
+        $task->user_id = $currentUser->id;
         $task->save();
 
-        return redirect('/');
+        return response()->json($task, 201);
     }
 
     /**
      * Delete Task Dashboard
      */
 
-    public function delete(Task $task) {
+    public function delete(Task $task)
+    {
 
         $task->delete();
 
