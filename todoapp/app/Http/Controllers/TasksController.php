@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Validator, Input, Redirect;
 
 
+
+
 class TasksController extends Controller
 {
     /**
@@ -31,7 +33,7 @@ class TasksController extends Controller
      * Add Task Dashboard
      */
 
-    public function add(Request $request)
+    public function add(StoreTaskRequest $request)
     {
         $currentUser = \Auth::user();
 
@@ -40,10 +42,9 @@ class TasksController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('/')
-                ->withInput()
-                ->withErrors($validator);
-        }
+            return  response()->json($validator->errors(), 422);
+
+        ;}
 
         $task = new Task;
         $task->name = $request->get('name');
