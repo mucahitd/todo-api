@@ -62,6 +62,6 @@ class TasksController extends Controller
 
         $task->delete();
 
-        return redirect('/');
+        return response()->json($task, 202);
     }
 }
