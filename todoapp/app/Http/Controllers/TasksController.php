@@ -6,6 +6,7 @@ use App\Task;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect;
+use App\Http\Requests\StoreTaskRequest;
 
 
 
@@ -37,14 +38,6 @@ class TasksController extends Controller
     {
         $currentUser = \Auth::user();
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return  response()->json($validator->errors(), 422);
-
-        ;}
 
         $task = new Task;
         $task->name = $request->get('name');

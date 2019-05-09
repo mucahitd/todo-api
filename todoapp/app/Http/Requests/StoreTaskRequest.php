@@ -24,9 +24,9 @@ class StoreTaskRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        return [
             'name' => 'required|max:255',
-        ]);
+        ];
 
     }
 }
