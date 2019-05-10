@@ -67,14 +67,22 @@ class TasksController extends Controller
 
         if ($tasks = !null) {
 
-            $task->delete();
+
+            return response()->json($tasks, 404);
+        }
+
+        if ($task->delete()) {
 
             return response()->json($task, 202);
 
         }
 
+        else {
 
-        return response()->json($tasks, 204);
+            return response()->json($task, 404);
+
+        }
+
 
     }
 }
