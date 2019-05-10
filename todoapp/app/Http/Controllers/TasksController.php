@@ -7,7 +7,6 @@ use http\Env\Response;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect;
 use App\Http\Requests\StoreTaskRequest;
-use Illuminate\Support\Facades\DB;
 
 
 class TasksController extends Controller
@@ -20,22 +19,7 @@ class TasksController extends Controller
     {
 
 
-        $tasks = Task::with('user');
-
-        if ($tasks == null) {
-
-            return response()->json($tasks, 204);
-
-        } else {
-
-            $limit = $request->get('limit', 50);
-
-            $tasks = Task::with('user')->orderBy('created_at', 'asc')->get($limit);
-
-        }
-
-        $tasks = Task::with('user')->orderBy('created_at', 'asc')->paginate(15);
-
+        $tasks = Task::with('user')->latest()->paginate(15);
 
         return response()->json($tasks, 200);
     }
