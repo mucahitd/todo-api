@@ -16,24 +16,25 @@ class TasksController extends Controller
      * Show Task Dashboard
      */
 
-    public function show()
+    public function show(Request $request)
     {
+
+
         $tasks = Task::with('user');
 
         if ($tasks == null) {
 
             return response()->json($tasks, 204);
+
+        } else {
+
+            $limit = $request->get('limit', 50);
+
+            $tasks = Task::with('user')->orderBy('created_at', 'asc')->get($limit);
+
         }
 
-
-        if (limit == null) {
-
-            $tasks = Task::with('user')->orderBy('created_at', 'asc')->paginate(15);
-
-        }
-
-
-        $tasks = Task::with('user')->orderBy('created_at', 'asc')->get();
+        $tasks = Task::with('user')->orderBy('created_at', 'asc')->paginate(15);
 
 
         return response()->json($tasks, 200);
@@ -75,11 +76,9 @@ class TasksController extends Controller
 
             return response()->json($task, 202);
 
-        }
+        } else {
 
-        else {
-
-            return response()->json($task, 404);
+            return response()->json($task, 417);
 
         }
 
