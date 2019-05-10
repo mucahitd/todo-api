@@ -7,7 +7,7 @@ use http\Env\Response;
 use Illuminate\Http\Request;
 use Validator, Input, Redirect;
 use App\Http\Requests\StoreTaskRequest;
-
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -20,7 +20,7 @@ class TasksController extends Controller
     public function show()
     {
 
-        $tasks = Task::with('user')->orderBy('created_at', 'asc')->get();
+        $tasks = Task::with('user')->orderBy('created_at', 'asc')->paginate(15);
 
         if ($tasks == null) {
 
@@ -53,6 +53,13 @@ class TasksController extends Controller
 
     public function delete(Task $task)
     {
+        $tasks = Task::with('user')->orderBy('created_at', 'asc')->get();
+
+
+        if ($tasks == null) {
+
+            return response()->json($tasks, 204);
+        }
 
         $task->delete();
 
