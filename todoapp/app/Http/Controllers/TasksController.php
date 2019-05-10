@@ -53,7 +53,7 @@ class TasksController extends Controller
 
     public function delete(Task $task)
     {
-        $tasks = Task::with('user')->orderBy('created_at', 'asc')->get();
+        $tasks = Task::with('user');
 
 
         if ($tasks == null) {
