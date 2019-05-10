@@ -10,7 +10,6 @@ use App\Http\Requests\StoreTaskRequest;
 use Illuminate\Support\Facades\DB;
 
 
-
 class TasksController extends Controller
 {
     /**
@@ -19,13 +18,23 @@ class TasksController extends Controller
 
     public function show()
     {
-
-        $tasks = Task::with('user')->orderBy('created_at', 'asc')->paginate(15);
+        $tasks = Task::with('user');
 
         if ($tasks == null) {
 
             return response()->json($tasks, 204);
         }
+
+
+        if (limit == null) {
+
+            $tasks = Task::with('user')->orderBy('created_at', 'asc')->paginate(15);
+
+        }
+
+
+        $tasks = Task::with('user')->orderBy('created_at', 'asc')->get();
+
 
         return response()->json($tasks, 200);
     }
@@ -56,13 +65,16 @@ class TasksController extends Controller
         $tasks = Task::with('user');
 
 
-        if ($tasks == null) {
+        if ($tasks = !null) {
 
-            return response()->json($tasks, 204);
+            $task->delete();
+
+            return response()->json($task, 202);
+
         }
 
-        $task->delete();
 
-        return response()->json($task, 202);
+        return response()->json($tasks, 204);
+
     }
 }
