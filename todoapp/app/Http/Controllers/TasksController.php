@@ -48,25 +48,19 @@ class TasksController extends Controller
 
     public function delete(Task $task)
     {
-        $task = Task::with('user');
-        $this->authorize('delete', $task);
 
-        if ($tasks = !null) {
+        if ($task->user_id == !auth('api')->user()->id) {
 
-
-            return response()->json($tasks, 404);
+            return response()->json([], 403);
         }
 
         if ($task->delete()) {
 
-            return response()->json($task, 202);
-
-        } else {
-
-            return response()->json($task, 417);
+            return response()->json([],202);
 
         }
 
+        return response()->json([],417);
 
     }
 }
