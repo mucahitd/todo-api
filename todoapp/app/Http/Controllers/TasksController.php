@@ -56,11 +56,11 @@ class TasksController extends Controller
 
         if ($task->delete()) {
 
-            return response()->json([],202);
+            return response()->json([], 202);
 
         }
 
-        return response()->json([],417);
+        return response()->json([], 417);
 
     }
 }
