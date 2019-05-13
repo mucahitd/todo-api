@@ -10,14 +10,16 @@ class TaskPolicy
 {
     use HandlesAuthorization;
 
-
-    public function update(User $user, Task $Task)
-    {
-        return $user->id === $Task->user_id;
-    }
-
     public function __construct()
     {
         //
     }
+
+
+    public function update(User $user, Task $task)
+    {
+        return $user->id === $task->user_id;
+    }
+
+
 }
