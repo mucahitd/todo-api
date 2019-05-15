@@ -25,8 +25,7 @@ class TasksController extends Controller
 
     public function show(Request $request)
     {
-        $task = Task::where(['user_id' => auth('api')->user()->id(), 'id' => $request->get('id')])->first();
-        
+        $task = Task::where(['user_id' => auth('api')->user()->id, 'id' => $request->get('id')])->first();
         return response()->json($task, 200);
 
     }
