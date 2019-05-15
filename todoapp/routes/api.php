@@ -20,8 +20,9 @@ use App\Task;
     return $request->user();
     });
 
-    Route::get('/tasks', 'TasksController@index')->middleware('auth:api');
+    Route::get('/tasks/', 'TasksController@index')->middleware('auth:api');
     Route::post('/task/add', 'TasksController@add')->middleware('auth:api');
     Route::delete('/task/{task}','TasksController@delete')->middleware('auth:api');
+    Route::get('/tasks/{task}','TasksController@show')->middleware('auth:api');
     Route::post('/register','Auth\RegisterController@register');
 
